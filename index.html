@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auren Studio — Brand & Strategy</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream: #f7f5f0;
+      --ink: #1a1814;
+      --stone: #8c8880;
+      --accent: #c8a96e;
+      --line: #e2dfd8;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.6rem 3rem;
+      background: rgba(247, 245, 240, 0.88);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.3s;
+    }
+    nav.scrolled { border-color: var(--line); }
+
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 300;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: var(--ink);
+    }
+    .nav-logo span { color: var(--accent); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      color: var(--stone);
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--ink); }
+
+    .nav-cta {
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.6rem 1.4rem;
+      border: 1px solid var(--ink);
+      background: transparent;
+      color: var(--ink);
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s, color 0.2s;
+    }
+    .nav-cta:hover { background: var(--ink); color: var(--cream); }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 8rem 3rem 4rem;
+      gap: 4rem;
+    }
+
+    .hero-text { max-width: 520px; }
+
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 5vw, 5.5rem);
+      font-weight: 300;
+      line-height: 1.08;
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.35s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--stone);
+    }
+
+    .hero-body {
+      font-size: 1rem;
+      color: var(--stone);
+      line-height: 1.75;
+      max-width: 400px;
+      margin-bottom: 2.8rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex; align-items: center; gap: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s 0.65s forwards;
+    }
+
+    .btn-primary {
+      display: inline-block;
+      padding: 0.85rem 2.2rem;
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-primary:hover { background: #2e2b26; transform: translateY(-1px); }
+
+    .btn-ghost {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      text-decoration: none;
+      color: var(--stone);
+      border-bottom: 1px solid var(--line);
+      padding-bottom: 2px;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .btn-ghost:hover { color: var(--ink); border-color: var(--stone); }
+
+    /* Hero image side */
+    .hero-visual {
+      position: relative;
+      height: 70vh;
+      opacity: 0;
+      animation: fadeIn 1s 0.4s forwards;
+    }
+    .hero-img-frame {
+      position: absolute; inset: 0;
+      background: var(--line);
+      overflow: hidden;
+    }
+    .hero-img-frame::before {
+      content: '';
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(135deg, #e8e2d4 0%, #d4cdc0 50%, #c8bfb0 100%);
+    }
+    /* decorative shapes */
+    .hero-img-frame::after {
+      content: '';
+      position: absolute;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(200, 169, 110, 0.15);
+      bottom: 15%; right: 10%;
+    }
+    .frame-accent {
+      position: absolute;
+      top: -1.5rem; left: -1.5rem;
+      width: 60%; height: 60%;
+      border: 1px solid var(--accent);
+      z-index: -1;
+    }
+    .frame-number {
+      position: absolute;
+      bottom: -1rem; right: -1rem;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 8rem;
+      font-weight: 300;
+      color: var(--line);
+      line-height: 1;
+      user-select: none;
+    }
+
+    /* ── MARQUEE ── */
+    .marquee-strip {
+      overflow: hidden;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      padding: 1rem 0;
+      white-space: nowrap;
+    }
+    .marquee-inner {
+      display: inline-flex;
+      animation: marquee 22s linear infinite;
+    }
+    .marquee-item {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--stone);
+      padding: 0 2.5rem;
+    }
+    .marquee-item span { color: var(--accent); margin-right: 2.5rem; }
+
+    /* ── SERVICES ── */
+    .section { padding: 7rem 3rem; }
+
+    .section-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.15;
+      max-width: 500px;
+      margin-bottom: 4rem;
+    }
+    .section-title em { font-style: italic; color: var(--stone); }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--line);
+    }
+    .service-item {
+      padding: 2.5rem 2rem 2.5rem 0;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      transition: background 0.3s;
+      cursor: default;
+    }
+    .service-item:nth-child(3n) { border-right: none; }
+    .service-item:hover { background: #f0ede6; }
+
+    .service-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.85rem;
+      color: var(--accent);
+      margin-bottom: 1.2rem;
+    }
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 300;
+      margin-bottom: 0.8rem;
+    }
+    .service-desc {
+      font-size: 0.85rem;
+      color: var(--stone);
+      line-height: 1.7;
+    }
+
+    /* ── ABOUT SPLIT ── */
+    .about-split {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+    .about-visual {
+      position: relative;
+      height: 500px;
+    }
+    .about-block {
+      background: var(--line);
+      position: absolute;
+      inset: 0;
+    }
+    .about-block::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, #ddd8cc 0%, #cac4b8 100%);
+    }
+    .about-stat {
+      position: absolute;
+      bottom: 2rem; left: 2rem;
+      background: var(--cream);
+      padding: 1.5rem 2rem;
+    }
+    .about-stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 3.5rem;
+      font-weight: 300;
+      line-height: 1;
+      color: var(--accent);
+    }
+    .about-stat-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--stone);
+      margin-top: 0.3rem;
+    }
+    .about-accent-line {
+      position: absolute;
+      top: 2rem; right: -2rem;
+      width: 4rem; height: 1px;
+      background: var(--accent);
+    }
+
+    .about-text p {
+      color: var(--stone);
+      font-size: 0.95rem;
+      line-height: 1.85;
+      margin-bottom: 1.2rem;
+    }
+    .about-values {
+      display: flex; gap: 2rem;
+      margin-top: 2.5rem;
+    }
+    .value-tag {
+      font-size: 0.72rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ink);
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 3px;
+    }
+
+    /* ── WORK / CASES ── */
+    .cases-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+    .case-card {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      group: true;
+    }
+    .case-img {
+      width: 100%; aspect-ratio: 4/3;
+      background: var(--line);
+      overflow: hidden;
+      position: relative;
+    }
+    .case-img::before {
+      content: '';
+      position: absolute; inset: 0;
+      transition: opacity 0.4s;
+    }
+    .case-card:nth-child(1) .case-img::before { background: linear-gradient(135deg, #d4cfc5 0%, #bbb5a8 100%); }
+    .case-card:nth-child(2) .case-img::before { background: linear-gradient(135deg, #c8c2b5 0%, #a8a298 100%); }
+    .case-card:nth-child(3) .case-img::before { background: linear-gradient(135deg, #e0dbd0 0%, #c8c1b0 100%); }
+    .case-card:nth-child(4) .case-img::before { background: linear-gradient(135deg, #ccc7bc 0%, #b0aa9e 100%); }
+
+    .case-overlay {
+      position: absolute; inset: 0;
+      background: rgba(26, 24, 20, 0.75);
+      display: flex; align-items: flex-end;
+      padding: 1.8rem;
+      opacity: 0;
+      transition: opacity 0.35s;
+    }
+    .case-card:hover .case-overlay { opacity: 1; }
+    .case-overlay-text { color: var(--cream); }
+    .case-overlay-cat {
+      font-size: 0.68rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+    .case-overlay-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 300;
+    }
+
+    .case-meta {
+      padding: 1rem 0 0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .case-meta-title {
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+    .case-meta-year {
+      font-size: 0.75rem;
+      color: var(--stone);
+    }
+
+    /* ── TESTIMONIAL ── */
+    .testimonial-section {
+      background: var(--ink);
+      color: var(--cream);
+      padding: 7rem 3rem;
+      text-align: center;
+    }
+    .testimonial-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3vw, 2.8rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.4;
+      max-width: 780px;
+      margin: 0 auto 2.5rem;
+      color: #e8e3d8;
+    }
+    .testimonial-author {
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+    .testimonial-divider {
+      width: 40px; height: 1px;
+      background: var(--accent);
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ── CONTACT ── */
+    .contact-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+    }
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--stone);
+    }
+    .form-input, .form-textarea {
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid var(--line);
+      padding: 0.7rem 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-textarea:focus { border-color: var(--ink); }
+    .form-textarea { resize: none; height: 100px; }
+    .form-submit {
+      align-self: flex-start;
+      margin-top: 0.5rem;
+      padding: 0.85rem 2.2rem;
+      background: var(--ink);
+      color: var(--cream);
+      border: none;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .form-submit:hover { background: #2e2b26; }
+
+    .contact-info p {
+      font-size: 0.9rem;
+      color: var(--stone);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    .contact-detail {
+      display: flex; flex-direction: column; gap: 0.9rem;
+    }
+    .contact-item {
+      display: flex; flex-direction: column;
+    }
+    .contact-item-label {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.2rem;
+    }
+    .contact-item-val {
+      font-size: 0.9rem;
+      color: var(--ink);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      color: var(--ink);
+    }
+    .footer-logo span { color: var(--accent); }
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--stone);
+      letter-spacing: 0.05em;
+    }
+    .footer-links {
+      display: flex; gap: 1.5rem; list-style: none;
+    }
+    .footer-links a {
+      font-size: 0.72rem;
+      color: var(--stone);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--ink); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes marquee {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s, transform 0.7s;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 1.5rem 3rem; }
+      .hero-visual { height: 45vh; }
+      .section { padding: 5rem 1.5rem; }
+      .services-grid { grid-template-columns: 1fr 1fr; }
+      .service-item:nth-child(2n) { border-right: none; }
+      .service-item:nth-child(3n) { border-right: 1px solid var(--line); }
+      .about-split { grid-template-columns: 1fr; gap: 3rem; }
+      .cases-grid { grid-template-columns: 1fr; }
+      .contact-section { grid-template-columns: 1fr; gap: 3rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="nav">
+    <a class="nav-logo" href="#">Auren<span>.</span></a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a class="nav-cta" href="#contact">Start a project</a>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="hero-text">
+      <p class="hero-eyebrow">Brand Strategy &amp; Visual Identity</p>
+      <h1 class="hero-title">We build brands<br>that <em>endure</em>.</h1>
+      <p class="hero-body">Auren Studio crafts strategic identities and digital experiences for companies that want to stand for something meaningful in their market.</p>
+      <div class="hero-actions">
+        <a href="#work" class="btn-primary">View our work</a>
+        <a href="#about" class="btn-ghost">Our approach →</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-img-frame"></div>
+      <div class="frame-accent"></div>
+      <div class="frame-number">A</div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <div class="marquee-strip">
+    <div class="marquee-inner">
+      <span class="marquee-item"><span>✦</span> Brand Identity</span>
+      <span class="marquee-item"><span>✦</span> Web Design</span>
+      <span class="marquee-item"><span>✦</span> Visual Strategy</span>
+      <span class="marquee-item"><span>✦</span> Art Direction</span>
+      <span class="marquee-item"><span>✦</span> Positioning</span>
+      <span class="marquee-item"><span>✦</span> Digital Experience</span>
+      <span class="marquee-item"><span>✦</span> Brand Identity</span>
+      <span class="marquee-item"><span>✦</span> Web Design</span>
+      <span class="marquee-item"><span>✦</span> Visual Strategy</span>
+      <span class="marquee-item"><span>✦</span> Art Direction</span>
+      <span class="marquee-item"><span>✦</span> Positioning</span>
+      <span class="marquee-item"><span>✦</span> Digital Experience</span>
+    </div>
+  </div>
+
+  <!-- SERVICES -->
+  <section class="section" id="services">
+    <p class="section-label reveal">What we do</p>
+    <h2 class="section-title reveal">Purposeful work<br>for <em>ambitious</em> brands.</h2>
+    <div class="services-grid">
+      <div class="service-item reveal">
+        <div class="service-num">01</div>
+        <div class="service-name">Brand Strategy</div>
+        <p class="service-desc">Positioning, narrative, and the foundational logic that makes a brand coherent and compelling across every touchpoint.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">02</div>
+        <div class="service-name">Visual Identity</div>
+        <p class="service-desc">Logo systems, typography, color, and the full visual language that communicates who you are before you say a word.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">03</div>
+        <div class="service-name">Web Design</div>
+        <p class="service-desc">Thoughtful digital experiences that are beautiful, fast, and built to convert — from landing pages to full product sites.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">04</div>
+        <div class="service-name">Art Direction</div>
+        <p class="service-desc">Photography, campaign creative, and the visual decisions that give your brand a consistent, memorable presence.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">05</div>
+        <div class="service-name">Brand Guidelines</div>
+        <p class="service-desc">Comprehensive documentation that empowers your team to maintain brand consistency at every scale and context.</p>
+      </div>
+      <div class="service-item reveal">
+        <div class="service-num">06</div>
+        <div class="service-name">Launch Support</div>
+        <p class="service-desc">We stay with you through rollout — ensuring your brand lands with impact and your team is confident using it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="about-split">
+      <div class="about-visual reveal">
+        <div class="about-block"></div>
+        <div class="about-stat">
+          <div class="about-stat-num">12+</div>
+          <div class="about-stat-label">Years of practice</div>
+        </div>
+        <div class="about-accent-line"></div>
+      </div>
+      <div class="about-text">
+        <p class="section-label reveal">Our studio</p>
+        <h2 class="section-title reveal">Craft, clarity,<br>and <em>intention</em>.</h2>
+        <div class="reveal">
+          <p>Auren Studio is a small, independent brand and design studio founded on the belief that great work comes from close collaboration, deep thinking, and relentless attention to detail.</p>
+          <p>We don't chase trends. We help businesses uncover what is genuinely true about them — and then build a brand that expresses it with precision and confidence.</p>
+          <p>Our clients range from early-stage startups to established companies ready to evolve. What they share is a commitment to doing things well.</p>
+        </div>
+        <div class="about-values reveal">
+          <span class="value-tag">Precision</span>
+          <span class="value-tag">Integrity</span>
+          <span class="value-tag">Clarity</span>
+          <span class="value-tag">Craft</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORK -->
+  <section class="section" id="work">
+    <p class="section-label reveal">Selected work</p>
+    <h2 class="section-title reveal">Recent <em>projects</em>.</h2>
+    <div class="cases-grid">
+      <div class="case-card reveal">
+        <div class="case-img">
+          <div class="case-overlay">
+            <div class="case-overlay-text">
+              <div class="case-overlay-cat">Brand Identity</div>
+              <div class="case-overlay-title">Meridian Finance</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-meta">
+          <span class="case-meta-title">Meridian Finance — Full Rebrand</span>
+          <span class="case-meta-year">2025</span>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-img">
+          <div class="case-overlay">
+            <div class="case-overlay-text">
+              <div class="case-overlay-cat">Web Design</div>
+              <div class="case-overlay-title">Sola Collective</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-meta">
+          <span class="case-meta-title">Sola Collective — Digital Presence</span>
+          <span class="case-meta-year">2025</span>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-img">
+          <div class="case-overlay">
+            <div class="case-overlay-text">
+              <div class="case-overlay-cat">Visual Identity</div>
+              <div class="case-overlay-title">Calla Interiors</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-meta">
+          <span class="case-meta-title">Calla Interiors — Brand System</span>
+          <span class="case-meta-year">2024</span>
+        </div>
+      </div>
+      <div class="case-card reveal">
+        <div class="case-img">
+          <div class="case-overlay">
+            <div class="case-overlay-text">
+              <div class="case-overlay-cat">Strategy + Design</div>
+              <div class="case-overlay-title">Fern Botanicals</div>
+            </div>
+          </div>
+        </div>
+        <div class="case-meta">
+          <span class="case-meta-title">Fern Botanicals — Launch Campaign</span>
+          <span class="case-meta-year">2024</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIAL -->
+  <div class="testimonial-section">
+    <blockquote class="testimonial-quote reveal">"Auren didn't just give us a logo — they gave us a language. For the first time, our whole team felt aligned on who we are and what we stand for."</blockquote>
+    <div class="testimonial-divider reveal"></div>
+    <p class="testimonial-author reveal">— Clara M., Founder, Sola Collective</p>
+  </div>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <p class="section-label reveal">Get in touch</p>
+    <h2 class="section-title reveal">Let's build something<br><em>together</em>.</h2>
+    <div class="contact-section">
+      <form class="contact-form reveal" onsubmit="return false;">
+        <div class="form-group">
+          <label class="form-label">Your name</label>
+          <input class="form-input" type="text" placeholder="Full name" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email address</label>
+          <input class="form-input" type="email" placeholder="you@company.com" />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tell us about your project</label>
+          <textarea class="form-textarea" placeholder="What are you working on?"></textarea>
+        </div>
+        <button class="form-submit" type="submit">Send message</button>
+      </form>
+      <div class="contact-info reveal">
+        <p>We take on a limited number of projects each year to ensure every client gets the focus and care they deserve. If you have a project in mind, we'd love to hear from you.</p>
+        <div class="contact-detail">
+          <div class="contact-item">
+            <span class="contact-item-label">Email</span>
+            <span class="contact-item-val">hello@aurenstudio.com</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item-label">Location</span>
+            <span class="contact-item-val">Montreal, Canada</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-item-label">Availability</span>
+            <span class="contact-item-val">Currently booking Q3 2026</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">Auren<span>.</span></div>
+    <p class="footer-copy">© 2026 Auren Studio. All rights reserved.</p>
+    <ul class="footer-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#work">Work</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </footer>
+
+  <script>
+    // Sticky nav shadow
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 40);
+    });
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          setTimeout(() => e.target.classList.add('visible'), i * 60);
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
